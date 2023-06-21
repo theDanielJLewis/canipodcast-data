@@ -1,0 +1,53 @@
+{
+	"title": "<podcast:locked>",
+	"description": "Tell other podcast hosting platforms whether they are allowed to import this feed",
+	"spec": "https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md#locked",
+	"status": "phase 1",
+	"categories": ["Podcast Namespace", "RSS", "podcaster"],
+	"stats": {
+		"libsyn": {
+			"current": "y"
+		},
+		"blubrry": {
+			"current": "y"
+		},
+		"captivate": {
+			"current": "y"
+		},
+		"rsscom": {
+			"current": "y"
+		},
+		"powerpress": {
+			"current": "y"
+		},
+		"acast": {
+			"current": "y"
+		},
+		"rssblue": {
+			"current": "y"
+		},
+		"buzzsprout": {
+			"current": "y"
+		},
+		"spotifyforpodcasters": {
+			"current": "y"
+		},
+		"fireside": {
+			"current": "y"
+		},
+		"redcircle": {
+			"current": "y"
+		},
+		"castos": {
+			"current": "y"
+		},
+		"transistor": {
+			"current": "y"
+		}
+	},
+	"notes": "",
+	"notes_by_num": {},
+	"parent": "audio",
+	"keywords": "",
+	"shown": true
+}
