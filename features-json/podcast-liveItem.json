@@ -6,43 +6,43 @@
 	"categories": ["Podcast Namespace", "RSS", "podcaster"],
 	"stats": {
 		"libsyn": {
-			"current": "y"
+			"current": ""
 		},
 		"blubrry": {
-			"current": "y"
+			"current": ""
 		},
 		"captivate": {
-			"current": "y"
+			"current": ""
 		},
 		"rsscom": {
-			"current": "y"
+			"current": ""
 		},
 		"powerpress": {
-			"current": "y"
+			"current": ""
 		},
 		"acast": {
-			"current": "y"
+			"current": ""
 		},
 		"rssblue": {
-			"current": "y"
+			"current": ""
 		},
 		"buzzsprout": {
-			"current": "y"
+			"current": ""
 		},
 		"spotifyforpodcasters": {
-			"current": "y"
+			"current": ""
 		},
 		"fireside": {
-			"current": "y"
+			"current": ""
 		},
 		"redcircle": {
-			"current": "y"
+			"current": ""
 		},
 		"castos": {
-			"current": "y"
+			"current": ""
 		},
 		"transistor": {
-			"current": "y"
+			"current": ""
 		}
 	},
 	"notes": "",
