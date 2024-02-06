@@ -18,20 +18,21 @@ export const rssNamespaceTags: RSSTag[] = [
         label: "Show title",
         language: "xml",
         code: `<channel>
-        <title>My Podcast</title>
-        <!-- Other channel tags -->
-        <!-- Items and their tags -->
-        </channel>`,
+  <title>My Podcast</title>
+  <!-- Other channel tags -->
+  <!-- Items and their tags -->
+</channel>`,
         highlightLines: [2],
       },
       {
         label: "Episode title",
         language: "xml",
-        code: `<item>
-        <title>Episode 1: The Beginning</title>
-        <!-- Other item tags -->
-        </item>`,
-        highlightLines: [2],
+        code: `<!-- Channel tags -->
+<item>
+  <title>Episode 1: The Beginning</title>
+  <!-- Other item tags -->
+</item>`,
+        highlightLines: [3],
       },
     ],
   },
@@ -208,6 +209,78 @@ export const rssNamespaceTags: RSSTag[] = [
   <!-- Other channel tags -->
   <!-- Items and their tags -->
 </channel>`,
+      },
+    ],
+  },
+  {
+    label: "Enclosure",
+    tag: "<enclosure>",
+    slug: "enclosure",
+    namespace: "rss",
+    parents: ["<item>"],
+    required: true,
+    description: {
+      short: "Media file for the episode",
+      long: "Describes a media object that is attached to the item. It has three required attributes. `url` says where the enclosure is located, `length` says how big it is in bytes, and `type` says what its type is, a standard MIME type.",
+    },
+    count: "single",
+    attributes: [
+      {
+        name: "url",
+        required: true,
+        description: "The URL of the media file.",
+      },
+      {
+        name: "length",
+        required: true,
+        description: "The length of the media file in bytes.",
+      },
+      {
+        name: "type",
+        required: true,
+        description: "The MIME type of the media file.",
+      },
+    ],
+    examples: [
+      {
+        language: "xml",
+        code: `<item>
+  <title>1. The Beginning</title>
+  <enclosure url="https://example.com/podcast/episode-1.mp3" length="1234567" type="audio/mpeg" />
+  <!-- Other item tags -->
+</item>`,
+      },
+    ],
+  },
+  {
+    label: "GUID",
+    tag: "<guid>",
+    slug: "guid",
+    namespace: "rss",
+    parents: ["<item>"],
+    required: true,
+    description: {
+      short: "Globally unique identifier for the episode",
+      long: "A string that uniquely identifies the item. When present, an aggregator may choose to use this string to determine if an item is new.",
+    },
+    count: "single",
+    nodeValue: "The node value is the GUID.",
+    attributes: [
+      {
+        name: "isPermaLink",
+        required: false,
+        description:
+          "A boolean value that says whether the GUID is a permalink. It is `true` by default.",
+      },
+    ],
+    examples: [
+      {
+        language: "xml",
+        code: `<item>
+  <title>1. The Beginning</title>
+  <guid isPermaLink="false">any-unique-text-like-a-url-or-hash</guid>
+  <!-- Other item tags -->
+</item>`,
       },
     ],
   },
@@ -1108,7 +1181,61 @@ export const podcastNamespaceTags: RSSTag[] = [
       {
         label: 'Example use for a "music" playlist feed',
         language: "xml",
-        code: '<rss\n  xmlns:podcast="https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md"\n  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"\n  version="2.0"\n>\n  <channel>\n    <title>Picking the Hits 2.0!</title>\n    <description>All the hits played on the Podcasting 2.0 show.</description>\n    <link>https://podcastindex.org</link>\n    <language>en-US</language>\n    <pubDate>Wed, 07 Jun 2023 04:30:38 GMT</pubDate>\n    <image>\n      <url>https://example.com/images/pci_avatar-massive.jpg</url>\n    </image>\n    \n    <podcast:guid>3f2a8e4e-263a-51aa-9d3d-0d71f82a1564</podcast:guid>\n    <podcast:medium>musicL</podcast:medium>\n    <itunes:image>https://example.com/images/pci_avatar-massive.jpg</itunes:image>\n    \n    <podcast:value type="lightning" method="keysend" suggested="0.00000005000">\n      <podcast:valueRecipient name="podcaster" type="node" \n        address="036557ea56b3b86f08be31bcd2557cae8021b0e3a9413f0c0e52625c6696972e57" split="99" />\n      <podcast:valueRecipient name="hosting company" type="node" \n        address="036557ea56b3b86f08be31bcd2557cae8021b0e3a9413f0c0e52625c6696972e57" split="1" />\n    </podcast:value>\n    \n    <podcast:remoteItem\n      feedGuid="ff519475-6e90-5231-91a0-37d092088d88"\n      feedUrl="https://media.rss.com/joemartinmusic/feed.xml"\n      itemGuid="e75771b1-e8d4-4133-9392-c579822247d9"\n      medium="music"\n    />\n    \n    <podcast:remoteItem\n      feedGuid="47081700-bd65-511f-b535-f545f3cd660c"\n      feedUrl="https://player.wavlake.com/feed/d1ed0ec9-21a8-4eda-b2c9-b17c8019a7e8"\n      itemGuid="7b03666e-b323-499d-93a7-ca51ce627ffd"\n      medium="music"\n    />\n      \n    <podcast:remoteItem\n      feedGuid="483dde8e-7e94-59a7-8eb0-2b0dc64a87bd"\n      feedUrl="https://player.wavlake.com/feed/1dd1bbd8-1084-4fdc-9788-dddaa62fbc6a"\n      itemGuid="8501fb64-a6a3-475a-8b10-9c746f0fe579"\n      medium="music"\n    />\n      \n    <podcast:remoteItem\n      feedGuid="b40ffcf7-2c48-5cfe-8daa-b65d766b2c25"\n      feedUrl="https://www.wavlake.com/feed/92b04241-97f5-4ff7-be11-cf45f70812e7"\n      itemGuid="9a48aab8-6da6-4cc1-9951-5b049c333580"\n      medium="music"\n    />\n  </channel>\n</rss>',
+        code: `<rss
+  xmlns:podcast="https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  version="2.0"
+>
+  <channel>
+    <title>Picking the Hits 2.0!</title>
+    <description>All the hits played on the Podcasting 2.0 show.</description>
+    <link>https://podcastindex.org</link>
+    <language>en-US</language>
+    <pubDate>Wed, 07 Jun 2023 04:30:38 GMT</pubDate>
+    <image>
+      <url>https://example.com/images/pci_avatar-massive.jpg</url>
+    </image>
+    
+    <podcast:guid>3f2a8e4e-263a-51aa-9d3d-0d71f82a1564</podcast:guid>
+    <podcast:medium>musicL</podcast:medium>
+    <itunes:image>https://example.com/images/pci_avatar-massive.jpg</itunes:image>
+    
+    <podcast:value type="lightning" method="keysend" suggested="0.00000005000">
+      <podcast:valueRecipient name="podcaster" type="node" 
+        address="036557ea56b3b86f08be31bcd2557cae8021b0e3a9413f0c0e52625c6696972e57" split="99" />
+      <podcast:valueRecipient name="hosting company" type="node" 
+        address="036557ea56b3b86f08be31bcd2557cae8021b0e3a9413f0c0e52625c6696972e57" split="1" />
+    </podcast:value>
+    
+    <podcast:remoteItem
+      feedGuid="ff519475-6e90-5231-91a0-37d092088d88"
+      feedUrl="https://media.rss.com/joemartinmusic/feed.xml"
+      itemGuid="e75771b1-e8d4-4133-9392-c579822247d9"
+      medium="music"
+    />
+    
+    <podcast:remoteItem
+      feedGuid="47081700-bd65-511f-b535-f545f3cd660c"
+      feedUrl="https://player.wavlake.com/feed/d1ed0ec9-21a8-4eda-b2c9-b17c8019a7e8"
+      itemGuid="7b03666e-b323-499d-93a7-ca51ce627ffd"
+      medium="music"
+    />
+      
+    <podcast:remoteItem
+      feedGuid="483dde8e-7e94-59a7-8eb0-2b0dc64a87bd"
+      feedUrl="https://player.wavlake.com/feed/1dd1bbd8-1084-4fdc-9788-dddaa62fbc6a"
+      itemGuid="8501fb64-a6a3-475a-8b10-9c746f0fe579"
+      medium="music"
+    />
+      
+    <podcast:remoteItem
+      feedGuid="b40ffcf7-2c48-5cfe-8daa-b65d766b2c25"
+      feedUrl="https://www.wavlake.com/feed/92b04241-97f5-4ff7-be11-cf45f70812e7"
+      itemGuid="9a48aab8-6da6-4cc1-9951-5b049c333580"
+      medium="music"
+    />
+  </channel>
+</rss>`,
       },
     ],
   },
@@ -1140,7 +1267,12 @@ export const podcastNamespaceTags: RSSTag[] = [
       {
         label: "Example of specifying four different image sizes",
         language: "xml",
-        code: '<podcast:images\n  srcset="https://example.com/images/ep1/pci_avatar-massive.jpg 1500w, \n    https://example.com/images/ep1/pci_avatar-middle.jpg 600w, \n    https://example.com/images/ep1/pci_avatar-small.jpg 300w, \n    https://example.com/images/ep1/pci_avatar-tiny.jpg 150w"\n/>',
+        code: `<podcast:images
+  srcset="https://example.com/images/ep1/pci_avatar-massive.jpg 1500w, 
+    https://example.com/images/ep1/pci_avatar-middle.jpg 600w, 
+    https://example.com/images/ep1/pci_avatar-small.jpg 300w, 
+    https://example.com/images/ep1/pci_avatar-tiny.jpg 150w"
+/>`,
       },
     ],
   },
@@ -1643,14 +1775,80 @@ export const podcastNamespaceTags: RSSTag[] = [
       {
         label: "Remote Item",
         language: "xml",
-        code: '<rss xmlns:podcast="https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md" version="2.0">\n  <channel>\n    <title>Metal Showcase</title>\n    <description>A great playlist of my favorite metal tracks.</description>\n    <link>https://example.com/rss-metal-showcase.xml</link>\n    <language>en</language>\n    <pubDate>Fri, 21 Apr 2023 18:56:30 -0500</pubDate>\n    <podcast:medium>music</podcast:medium>\n    <item>\n      <title>Special interview with Torcon VII</title>\n      <!-- Other tags here -->\n      <podcast:value type="lightning" method="keysend">\n        <podcast:valueRecipient name="Alice (Podcaster)" type="node" \n          address="02d5c1bf8b940dc9cadca86d1b0a3c37fbe39cee4c7e839e33bef9174531d27f52"\n          split="95" />\n        <podcast:valueRecipient name="Hosting Provider" type="node" \n          address="03ae9f91a0cb8ff43840e3c322c4c61f019d8c1c3cea15a25cfc425ac605e61a4a"\n          split="5" fee="true" />\n        <podcast:valueTimeSplit startTime="60" duration="237" remotePercentage="95">\n          <podcast:remoteItem itemGuid="https://podcastindex.org/podcast/4148683#1"\n            feedGuid="a94f5cc9-8c58-55fc-91fe-a324087a655b" medium="music" />\n        </podcast:valueTimeSplit>\n        <podcast:valueTimeSplit startTime="330" duration="53" remoteStartTime="174" remotePercentage="95">\n          <podcast:remoteItem itemGuid="https://podcastindex.org/podcast/4148683#3"\n            feedGuid="a94f5cc9-8c58-55fc-91fe-a324087a655b" medium="music" />\n        </podcast:valueTimeSplit>\n      </podcast:value>\n   </item>\n  \n  </channel>\n</rss>',
+        code: `<rss xmlns:podcast="https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md" version="2.0">
+<channel>
+  <title>Metal Showcase</title>
+  <description>A great playlist of my favorite metal tracks.</description>
+  <link>https://example.com/rss-metal-showcase.xml</link>
+  <language>en</language>
+  <pubDate>Fri, 21 Apr 2023 18:56:30 -0500</pubDate>
+  <podcast:medium>music</podcast:medium>
+  <item>
+    <title>Special interview with Torcon VII</title>
+    <!-- Other item tags -->
+    <podcast:value type="lightning" method="keysend">
+      <podcast:valueRecipient name="Alice (Podcaster)" type="node" 
+        address="02d5c1bf8b940dc9cadca86d1b0a3c37fbe39cee4c7e839e33bef9174531d27f52"
+        split="95" />
+      <podcast:valueRecipient name="Hosting Provider" type="node" 
+        address="03ae9f91a0cb8ff43840e3c322c4c61f019d8c1c3cea15a25cfc425ac605e61a4a"
+        split="5" fee="true" />
+      <podcast:valueTimeSplit startTime="60" duration="237" remotePercentage="95">
+        <podcast:remoteItem itemGuid="https://podcastindex.org/podcast/4148683#1"
+          feedGuid="a94f5cc9-8c58-55fc-91fe-a324087a655b" medium="music" />
+      </podcast:valueTimeSplit>
+      <podcast:valueTimeSplit startTime="330" duration="53" remoteStartTime="174" remotePercentage="95">
+        <podcast:remoteItem itemGuid="https://podcastindex.org/podcast/4148683#3"
+          feedGuid="a94f5cc9-8c58-55fc-91fe-a324087a655b" medium="music" />
+      </podcast:valueTimeSplit>
+    </podcast:value>
+  </item>
+</channel>
+</rss>`,
         highlightLines: ["19:26"],
       },
 
       {
         label: "Locally Specified",
         language: "xml",
-        code: '<rss xmlns:podcast="https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md" version="2.0">\n  <channel>\n  <title>Cool Pod</title>\n  <description>This is a cool pod</description>\n  <link>https://example.com/rss-cool-pod.xml</link>\n  <language>en</language>\n  <pubDate>Fri, 21 Apr 2023 18:56:30 -0500</pubDate>\n  <podcast:medium>podcast</podcast:medium>\n  <item>\n    <title>Adam Hates the word "pod" (and I do, too)</title>\n    <!-- Other tags here -->\n    <podcast:value type="lightning" method="keysend">\n      <podcast:valueRecipient name="Alice (Podcaster)" type="node" \n        address="02d5c1bf8b940dc9cadca86d1b0a3c37fbe39cee4c7e839e33bef9174531d27f52"\n        split="95" />\n      <podcast:valueRecipient name="Hosting Provider" type="node" \n        address="03ae9f91a0cb8ff43840e3c322c4c61f019d8c1c3cea15a25cfc425ac605e61a4a"\n        split="5" fee="true" />\n      <podcast:valueTimeSplit startTime="63" duration="388">\n        <podcast:valueRecipient name="Alice (Podcaster)" type="node" \n          address="02d5c1bf8b940dc9cadca86d1b0a3c37fbe39cee4c7e839e33bef9174531d27f52"\n          split="85" />\n        <podcast:valueRecipient name="Jimbob (Guest)" type="node" \n          address="02dd306e68c46681aa21d88a436fb35355a8579dd30201581cefa17cb179fc4c15"\n          split="10" />\n      </podcast:valueTimeSplit>\n      <podcast:valueTimeSplit startTime="367" duration="246">\n        <podcast:valueRecipient name="Alice (Podcaster)" type="node" \n          address="02d5c1bf8b940dc9cadca86d1b0a3c37fbe39cee4c7e839e33bef9174531d27f52"\n          split="85" />\n        <podcast:valueRecipient name="Bobjim (Guest)" type="node" \n          address="032f4ffbbafffbe51726ad3c164a3d0d37ec27bc67b29a159b0f49ae8ac21b8508"\n          split="10" />\n      </podcast:valueTimeSplit>\n    </podcast:value>\n  </item>\n\n  </channel>\n</rss>',
+        code: `<rss xmlns:podcast="https://github.com/Podcastindex-org/podcast-namespace/blob/main/docs/1.0.md" version="2.0">
+  <channel>
+    <title>Cool Pod</title>
+    <description>This is a cool podcast</description>
+    <link>https://example.com/rss-cool-pod.xml</link>
+    <language>en</language>
+    <pubDate>Fri, 21 Apr 2023 18:56:30 -0500</pubDate>
+    <podcast:medium>podcast</podcast:medium>
+    <item>
+      <title>Adam Hates the word "pod" (and I do, too)</title>
+      <!-- Other tags here -->
+      <podcast:value type="lightning" method="keysend">
+        <podcast:valueRecipient name="Alice (Podcaster)" type="node" 
+          address="02d5c1bf8b940dc9cadca86d1b0a3c37fbe39cee4c7e839e33bef9174531d27f52"
+          split="95" />
+        <podcast:valueRecipient name="Hosting Provider" type="node" 
+          address="03ae9f91a0cb8ff43840e3c322c4c61f019d8c1c3cea15a25cfc425ac605e61a4a"
+          split="5" fee="true" />
+        <podcast:valueTimeSplit startTime="63" duration="388">
+          <podcast:valueRecipient name="Alice (Podcaster)" type="node" 
+            address="02d5c1bf8b940dc9cadca86d1b0a3c37fbe39cee4c7e839e33bef9174531d27f52"
+            split="85" />
+          <podcast:valueRecipient name="Jimbob (Guest)" type="node" 
+            address="02dd306e68c46681aa21d88a436fb35355a8579dd30201581cefa17cb179fc4c15"
+            split="10" />
+        </podcast:valueTimeSplit>
+        <podcast:valueTimeSplit startTime="367" duration="246">
+          <podcast:valueRecipient name="Alice (Podcaster)" type="node" 
+            address="02d5c1bf8b940dc9cadca86d1b0a3c37fbe39cee4c7e839e33bef9174531d27f52"
+            split="85" />
+          <podcast:valueRecipient name="Bobjim (Guest)" type="node" 
+            address="032f4ffbbafffbe51726ad3c164a3d0d37ec27bc67b29a159b0f49ae8ac21b8508"
+            split="10" />
+        </podcast:valueTimeSplit>
+      </podcast:value>
+    </item>
+  </channel>
+</rss>`,
         highlightLines: ["19:34"],
       },
     ],
@@ -1772,6 +1970,24 @@ export const itunesNamespaceTags: RSSTag[] = [
     ],
   },
   {
+    label: "iTunes Title",
+    tag: "<itunes:title>",
+    slug: "itunes-title",
+    namespace: "itunes",
+    description: {
+      short: "The title (show or episode) specific for Apple Podcasts.",
+      long: "The `title` tag contains the title of the podcast or the episode. It will replace the `<title>` tag in Apple Podcasts. It is a string of plain text, and is a child of the `item` element. It is used to provide the title of the episode. It is not required, but it is recommended.",
+    },
+    parents: ["<channel>", "<item>"],
+    count: "single",
+    examples: [
+      {
+        code: "<itunes:title>Title of the show or episode</itunes:title>",
+        language: "xml",
+      },
+    ],
+  },
+  {
     label: "iTunes Show Type",
     tag: "<itunes:type>",
     slug: "itunes-type",
@@ -1790,6 +2006,68 @@ export const itunesNamespaceTags: RSSTag[] = [
     ],
     nodeValue:
       "The node value must be `episodic` or `serial`. If not present, it should be assumed to be `episodic`.",
+  },
+  {
+    label: "iTunes New Feed URL",
+    tag: "<itunes:new-feed-url>",
+    slug: "itunes-new-feed-url",
+    namespace: "itunes",
+    description: {
+      short: "The new feed URL",
+      long: "The `new-feed-url` tag contains the new feed URL. It is a string of plain text, and is a child of the `channel` element. It is used to provide the new feed URL. It is not required, but it is recommended.",
+    },
+    parents: ["<channel>"],
+    count: "single",
+    examples: [
+      {
+        code: "<itunes:new-feed-url>https://new-feed-url.com</itunes:new-feed-url>",
+        language: "xml",
+      },
+    ],
+  },
+  {
+    label: "iTunes Block",
+    tag: "<itunes:block>",
+    slug: "itunes-block",
+    namespace: "itunes",
+    description: {
+      short: "The podcast show or hide status.",
+      long: `If you want your show removed from the Apple directory, use this tag.
+
+      Specifying the \`<itunes:block>\` tag with a Yes value, prevents the entire podcast from appearing in Apple Podcasts.
+      
+      Specifying any value other than Yes has no effect.`,
+    },
+    parents: ["<channel>", "<item>"],
+    count: "single",
+    examples: [
+      {
+        code: "<itunes:block>yes</itunes:block>",
+        language: "xml",
+      },
+    ],
+  },
+  {
+    label: "iTunes Complete",
+    tag: "<itunes:complete>",
+    slug: "itunes-complete",
+    namespace: "itunes",
+    description: {
+      short: "The podcast update status.",
+      long: `If you will never publish another episode to your show, use this tag.
+
+      Specifying the <itunes:complete> tag with a Yes value indicates that a podcast is complete and you will not post any more episodes in the future.
+      
+      Specifying any value other than Yes has no effect.`,
+    },
+    parents: ["<channel>"],
+    count: "single",
+    examples: [
+      {
+        code: "<itunes:complete>yes</itunes:complete>",
+        language: "xml",
+      },
+    ],
   },
   {
     label: "iTunes Owner",
@@ -1879,6 +2157,24 @@ export const itunesNamespaceTags: RSSTag[] = [
     ],
   },
   {
+    label: "iTunes Season Number",
+    tag: "<itunes:season>",
+    slug: "itunes-season",
+    namespace: "itunes",
+    description: {
+      short: "The season number",
+      long: "The `season` tag contains the season number. It is a string of plain text, and is a child of the `item` element. It is used to provide the season number. It is not required, but it is recommended.",
+    },
+    parents: ["<item>"],
+    count: "single",
+    examples: [
+      {
+        code: "<itunes:season>1</itunes:season>",
+        language: "xml",
+      },
+    ],
+  },
+  {
     label: "iTunes Episode Duration",
     tag: "<itunes:duration>",
     slug: "itunes-duration",
@@ -1912,6 +2208,24 @@ export const itunesNamespaceTags: RSSTag[] = [
     examples: [
       {
         code: "<itunes:episodeType>full</itunes:episodeType>",
+        language: "xml",
+      },
+    ],
+  },
+  {
+    label: "iTunes Keywords",
+    tag: "<itunes:keywords>",
+    slug: "itunes-keywords",
+    namespace: "itunes",
+    description: {
+      short: "The keywords of the show",
+      long: "The `keywords` tag contains the keywords of the episode. It is a string of plain text, and is a child of the `item` element. It is used to provide the keywords of the episode. It is not required, but it is recommended.",
+    },
+    parents: ["<channel", "<item>"],
+    count: "single",
+    examples: [
+      {
+        code: "<itunes:keywords>keyword1,keyword2,keyword3</itunes:keywords>",
         language: "xml",
       },
     ],
